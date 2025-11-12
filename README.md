@@ -14,6 +14,8 @@ This code sample was created for a Software Engineering course to demonstrate cl
 
 This repository is intended for educational purposes as part of Kean University's CPS 5301 Advanced Software Engineering course. The code demonstrates object-oriented programming concepts, class relationships, and design patterns through a candy store management system.
 
+Added a couple of functions/methods to the existing code 
+
 ## Attribution
 
 - **Store Image**: Created by Christopher Paredes, Kean University student
