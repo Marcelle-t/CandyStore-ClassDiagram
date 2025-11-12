@@ -7,6 +7,11 @@ class PaymentMethod:
     def process_payment(self, amount: float) -> bool:
         """Abstract method to process payments."""
         raise NotImplementedError
+    
+    def refund(self, amount: float) -> bool:
+        """Simulate refunding a payment amount."""
+        print(f"Refunding ${amount:.2f} via {self.method_name}...")
+        return True
 
 
 class CreditCard(PaymentMethod):
@@ -16,6 +21,10 @@ class CreditCard(PaymentMethod):
         super().__init__("Credit Card")
         self.card_number = card_number
         self.holder_name = holder_name
+        
+    def validate_card(self) -> bool:
+        """Validate that the card number has 16 digits."""
+        return len(self.card_number) == 16 and self.card_number.isdigit()
 
     def process_payment(self, amount: float) -> bool:
         """Process a credit card payment."""
