@@ -47,7 +47,13 @@ class Candy(Product):
         if amount > self.quantity:
             raise ValueError("Not enough stock")
         self.quantity -= amount
-
+        
+    def restock(self, amount: int):
+        """Increase stock quantity by a positive amount."""
+        if amount <= 0:
+            raise ValueError("Restock amount must be positive.")
+        self.quantity += amount
+        print(f"Restocked {self.name}: +{amount} (Total: {self.quantity}).")
 
 class Catalog:
     """Collection of all candies."""
