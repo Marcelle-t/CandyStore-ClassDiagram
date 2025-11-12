@@ -42,6 +42,23 @@ class ShoppingCart:
         total = self.calculate_total()
         order_items = [OrderItem(i.candy, i.quantity) for i in self._items]
         return Order(self.user, order_items, total, payment_method)
+    
+    def remove_item(self, candy_name: str):
+        """Remove a candy from the cart by name."""
+        for item in self._items:
+            if item.candy.name.lower() == candy_name.lower():
+                self._items.remove(item)
+                print(f"Removed {candy_name} from cart.")
+                return
+        print(f"{candy_name} not found in cart.")
+
+    def view_cart(self):
+        """Display current items and total price."""
+        if not self._items:
+            return "Cart is empty."
+        details = [f"{i.candy.name} x{i.quantity} = ${i.subtotal():.2f}" for i in self._items]
+        total = self.calculate_total()
+        return "\n".join(details) + f"\nTotal: ${total:.2f}"
 
     def clear(self):
         """Clear all items from the cart."""
@@ -75,7 +92,19 @@ class Order:
         else:
             self.status = "Payment Failed"
             return False
-
+        
+    def summary(self):
+        """Generate a readable order summary."""
+        lines = [f"Order #{self.order_id} for {self.user.name}",
+                 f"Date: {self.timestamp.strftime('%Y-%m-%d %H:%M')}",
+                 f"Status: {self.status}",
+                 f"Payment Method: {self.payment_method.method_name}",
+                 "Items:"]
+        for item in self.items:
+            lines.append(f" - {item.candy.name} x{item.quantity} = ${item.subtotal:.2f}")
+        lines.append(f"Total: ${self.total_amount:.2f}")
+        return "\n".join(lines)
+    
     def ship_order(self):
         """Mark the order as shipped."""
         self.status = "Shipped"
