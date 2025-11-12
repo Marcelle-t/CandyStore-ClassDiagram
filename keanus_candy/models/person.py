@@ -49,7 +49,20 @@ class User(Person):
     def get_cart(self) -> Optional["ShoppingCart"]:
         """Get the user's shopping cart."""
         return self._cart
+    
+    def update_password(self, old_password: str, new_password: str) -> bool:
+        """Change password if the old password matches."""
+        if self._password == old_password:
+            self._password = new_password
+            print("Password updated successfully.")
+            return True
+        print("Password update failed: incorrect current password.")
+        return False
 
+    def display_info(self):
+        """Display user information with masked email for privacy."""
+        masked_email = self.email[0] + "***@" + self.email.split("@")[1]
+        return f"User: {self.name}, Contact: {masked_email}"
 
 class Staff(User):
     """Represents store employees — inherits from User."""
@@ -66,3 +79,8 @@ class Staff(User):
         """Generate a sales report from a list of orders."""
         total = sum(order.total_amount for order in orders)
         return f"Total sales: ${total:.2f}"
+
+    def view_inventory(self, catalog: "Catalog"):
+        """Display all candy items in stock."""
+        report = "\n".join([f"{c.name} - {c.quantity} units" for c in catalog.candies])
+        return f"Inventory Report:\n{report}"
