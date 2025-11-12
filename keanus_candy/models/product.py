@@ -12,7 +12,23 @@ class Product:
 
     def display(self):
         return f"{self.name} - ${self.price:.2f}"
+    
+    def add_review(self, new_review: str):
+        """Add a customer review to the product."""
+        if not hasattr(self, "reviews") or not isinstance(self.reviews, list):
+            self.reviews = []
+        self.reviews.append(new_review)
+        print(f"New review added for {self.name}.")
 
+    def to_dict(self) -> dict:
+        """Convert product data to dictionary."""
+        return {
+            "product_id": self.product_id,
+            "name": self.name,
+            "price": self.price,
+            "description": self.description,
+            "reviews": self.reviews if self.reviews else [],
+        }
 
 class Candy(Product):
     """Specific type of product (inherits Product)."""
